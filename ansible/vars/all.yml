@@ -1,0 +1,36 @@
+---
+server:
+    install: '1'
+    packages: [vim]
+    timezone: UTC
+    locale: pt_BR.UTF-8
+app:
+    env: development
+    debug: true
+vagrant_local:
+    install: '1'
+    vm: { base_box: trusty64, hostname: default, ip: 192.168.33.99, memory: '512', sharedfolder: ./, useVagrantCloud: '1', syncType: nfs }
+nginx:
+    install: '1'
+    docroot: /vagrant/public
+    servername: firefly.dev
+mysql:
+    install: '1'
+    root_password: root
+    database: firefly
+    user: firefly
+    password: firefly
+    dump: ''
+php:
+    install: '1'
+    ppa: php
+    packages: [php-mbstring, php-mcrypt, php-bcmath, php-gd, php-intl, php-xml, php-mysql, php-zip]
+xdebug:
+    install: '1'
+redis:
+    install: '1'
+    port: '6379'
+    redis_path: '/opt/redis'
+app:
+    env: development
+    debug: true

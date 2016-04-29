@@ -1,0 +1,22 @@
+---
+- name: Install Dependencies
+  composer:
+    command: install
+    arguments: "--no-dev --no-interaction"
+    working_dir: /vagrant
+
+- name: Run Migrations
+  shell: "php artisan migrate --no-interaction --env={{ app.env }}"
+  args:
+    chdir: "/vagrant"
+
+- name: configure envrionment
+  lineinfile: dest="/vagrant/.env" regexp="^{{ item.option }}" line="{{item.option}}={{item.value}}" state=present
+  with_items:
+    - { option: APP_ENV, value: "{{ app.env }}" }
+    - { option: APP_DEBUG, value: "{{ app.debug }}" }
+    - { option: DB_CONNECTION, value: mysql }
+    - { option: DB_HOST, value: localhost }
+    - { option: DB_DATABASE, value: "{{ mysql.database }}" }
+    - { option: DB_USERNAME, value: "{{ mysql.user }}" }
+    - { option: DB_PASSWORD, value: "{{ mysql.password }}" }
